@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#2d6a4f">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Famliste</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>Famliste</h1>
+    <div class="sub" id="subTitle"></div>
+  </div>
+  <button class="icon-btn" id="settingsBtn" title="Innstillinger">&#9881;&#65039;</button>
+</header>
+
+<main id="main"></main>
+
+<button class="fab" id="fab">+</button>
+
+<nav class="tabs">
+  <button data-tab="cal" class="active"><span class="ic">&#128197;</span>Kalender</button>
+  <button data-tab="shop"><span class="ic">&#128722;</span>Handleliste</button>
+  <button data-tab="todo"><span class="ic">&#9989;</span>Gjøremål</button>
+</nav>
+
+<!-- Hendelse/gjøremål-modal -->
+<div class="overlay" id="eventOverlay">
+  <div class="sheet">
+    <h2 id="evTitle">Ny oppføring</h2>
+    <div class="field">
+      <label>Hva</label>
+      <input type="text" id="evName" placeholder="F.eks. middag hos mamma, støvsuge...">
+    </div>
+    <div class="field">
+      <label>Type</label>
+      <div class="owner-pick" id="evTypePick">
+        <button data-val="event">Hendelse</button>
+        <button data-val="task">Gjøremål</button>
+      </div>
+    </div>
+    <div class="field" id="evMultiToggle">
+      <label class="switch-row">
+        <input type="checkbox" id="evMultiOn">
+        <span class="tick"></span>
+        <span class="sw-label">Velg flere enkeltdager</span>
+      </label>
+    </div>
+    <div class="field" id="evMultiField" style="display:none">
+      <label>Trykk på dagene det gjelder</label>
+      <div class="mini-head">
+        <button type="button" id="mcPrev">&#8249;</button>
+        <span id="mcLabel"></span>
+        <button type="button" id="mcNext">&#8250;</button>
+      </div>
+      <div class="mini-grid" id="evMultiCal"></div>
+      <div class="mini-count" id="mcCount"></div>
+    </div>
+    <div class="field-row" id="evDateRow">
+      <div class="field">
+        <label>Fra dato</label>
+        <input type="date" id="evDate">
+      </div>
+      <div class="field">
+        <label>Til dato (valgfritt)</label>
+        <input type="date" id="evEnd">
+      </div>
+    </div>
+    <div class="field" id="evRepeatField">
+      <label>Gjentas</label>
+      <select id="evRepeat">
+        <option value="0">Aldri</option>
+        <option value="7">Hver uke</option>
+        <option value="14">Hver 2. uke (annenhver)</option>
+        <option value="28">Hver 4. uke</option>
+        <option value="m">Hver måned (samme dato)</option>
+      </select>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label>Fra kl. (valgfritt)</label>
+        <input type="time" id="evTime">
+      </div>
+      <div class="field">
+        <label>Til kl. (valgfritt)</label>
+        <input type="time" id="evTimeEnd">
+      </div>
+    </div>
+    <div class="field">
+      <label>Hvem</label>
+      <div class="owner-pick" id="evOwnerPick">
+        <button data-val="p1">P1</button>
+        <button data-val="p2">P2</button>
+        <button data-val="felles">Felles</button>
+      </div>
+    </div>
+    <div class="field" id="evPointsField">
+      <label>Poeng (hvor stor er jobben?)</label>
+      <div class="owner-pick" id="evPointsPick">
+        <button data-val="1">1</button>
+        <button data-val="2">2</button>
+        <button data-val="3">3</button>
+      </div>
+    </div>
+    <div class="field">
+      <label>Notat (valgfritt)</label>
+      <textarea id="evNote" rows="2" placeholder=""></textarea>
+    </div>
+    <div class="sheet-actions">
+      <button class="btn danger" id="evDelete" style="display:none">&#128465;</button>
+      <button class="btn ghost" id="evCancel">Avbryt</button>
+      <button class="btn primary" id="evSave">Lagre</button>
+    </div>
+  </div>
+</div>
+
+<!-- Innstillinger-modal -->
+<div class="overlay" id="setOverlay">
+  <div class="sheet">
+    <h2>Innstillinger</h2>
+    <div class="field-row">
+      <div class="field">
+        <label>Navn person 1</label>
+        <input type="text" id="setP1">
+      </div>
+      <div class="field">
+        <label>Navn person 2</label>
+        <input type="text" id="setP2">
+      </div>
+    </div>
+    <div class="field">
+      <label>Familiekode (samme kode på begge telefoner)</label>
+      <input type="text" id="setCode" placeholder="velg en hemmelig kode">
+    </div>
+    <div class="field">
+      <label class="switch-row">
+        <input type="checkbox" id="setPoints">
+        <span class="tick"></span>
+        <span class="sw-label">Poengsystem med felles mål</span>
+      </label>
+    </div>
+    <div class="sync-banner" id="setSyncInfo"></div>
+    <div class="sheet-actions">
+      <button class="btn ghost" id="setCancel">Avbryt</button>
+      <button class="btn primary" id="setSave">Lagre</button>
+    </div>
+  </div>
+</div>
+
+<!-- Mål-modal -->
+<div class="overlay" id="goalOverlay">
+  <div class="sheet">
+    <h2>Felles mål</h2>
+    <div class="field">
+      <label>Poengmål (f.eks. 50)</label>
+      <input type="number" id="goalTarget" min="1" inputmode="numeric" placeholder="50">
+    </div>
+    <div class="field">
+      <label>Premie når dere når målet</label>
+      <input type="text" id="goalPrize" placeholder="f.eks. sushi-kveld, kinotur, helgetur...">
+    </div>
+    <div class="sheet-actions">
+      <button class="btn danger" id="goalReset" title="Nullstill poeng">0</button>
+      <button class="btn ghost" id="goalCancel">Avbryt</button>
+      <button class="btn primary" id="goalSave">Lagre</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- Firebase (compat) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
+<script src="app.js"></script>
+</body>
+</html>
