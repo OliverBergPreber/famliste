@@ -1,0 +1,13 @@
+{
+  "name": "Famliste",
+  "short_name": "Famliste",
+  "description": "Felles kalender, handleliste og gjøremål",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f6f7f4",
+  "theme_color": "#2d6a4f",
+  "lang": "no",
+  "icons": [
+    { "src": "icon.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
