@@ -2,6 +2,12 @@
 
 En delt hverdagsapp for par: felles kalender, handleliste og gjøremål med sanntidssynkronisering mellom telefoner. Bygget som en installerbar PWA i ren HTML, CSS og JavaScript, helt uten rammeverk eller byggverktøy.
 
+## Prøv appen
+
+**[remarkable-gecko-16eb22.netlify.app](https://remarkable-gecko-16eb22.netlify.app)**
+
+Åpne lenken og test alt direkte, ingen innlogging eller oppsett kreves. På mobil kan appen legges til på hjemskjermen og brukes som en vanlig app. For å teste sanntidssynk mellom to enheter: åpne innstillingene (tannhjulet) på begge og skriv inn samme selvvalgte familiekode.
+
 ## Bakgrunn
 
 Famliste løser et konkret problem i en travel hverdag: hvem gjør hva, og når? I stedet for løse meldinger og påminnelser samles alt på ett sted. Begge kan legge inn vakter, avtaler og oppgaver, se hvem som eier hva med ett blikk, og krysse av i sanntid.
